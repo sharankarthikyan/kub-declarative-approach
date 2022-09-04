@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: second-app-deployment
+  labels:
+    group: example
 spec:
   replicas: 1
   selector:
@@ -16,6 +18,12 @@ spec:
       containers:
         - name: second-node
           image: sharank10/kub-first-app
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 10
+            initialDelaySeconds: 5
           resources:
             limits:
               memory: 512Mi
